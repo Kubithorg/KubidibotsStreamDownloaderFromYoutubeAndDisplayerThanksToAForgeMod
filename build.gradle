@@ -1,18 +1,32 @@
-apply plugin: 'java'
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
 
-group 'fr.kubiton'
-version '0.0.1'
+version = "0.0.1"
+group = "fr.kubithon"
+archivesBaseName = "streamer"
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
 
-repositories {
-    mavenCentral()
+minecraft {
+    version = "1.12.2-14.23.0.2517"
+    runDir = "run"
+
+    mappings = "snapshot_20171003"
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
 }
 
 sourceSets {
@@ -25,5 +39,20 @@ sourceSets {
         java {
             srcDirs = ['src/test/java']
         }
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
     }
 }

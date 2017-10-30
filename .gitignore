@@ -90,7 +90,7 @@ nbdist/
 ### Java ###
 # Compiled class file
 *.class
-*/build/**
+build/**
 
 # Log file
 *.log
@@ -135,3 +135,4 @@ gradle-app.setting
 ###Local project ignored files###
 HEADER
 LICENSE
+run/
